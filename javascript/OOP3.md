@@ -128,7 +128,7 @@ Person.prototype.hello = function() {
 }
 
 function Man() {}
-Man.prototype = Object.create(Person);
+Man.prototype = Object.create(Person.prototype);
 Man.prototype.constructor = Man;
 Man.prototype.hello = function() {
   console.log('Fu**!');
@@ -138,7 +138,7 @@ Man.prototype.intro = function() {
 }
 
 function Woman() {}
-Woman.prototype = Object.create(Person);
+Woman.prototype = Object.create(Person.prototype);
 Woman.prototype.constructor = Woman;
 Woman.prototype.intro = function() {
   console.log("i'm woman");
