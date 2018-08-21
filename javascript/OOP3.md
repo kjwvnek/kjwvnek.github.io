@@ -17,7 +17,8 @@ function Node(value) {
 }
 ~~~
 링크드리스트 자료구조를 구현하다 만 코드이다. 여기서 `LinkedList`는 자기가 해야할 일을 `Node`에게 **위임**했다.  
-즉, `LinkedList`가 `Node`에게 **의존**하게 되는 것이다.
+**위임을 진행**하는 `LinkedList`가 상위수준의 모듈, **위임을 받는** `Node`가 하위수준의 모듈이라 할 수 있을 것이다.
+즉, `LinkedList`가 `Node`에게 **의존**하게 되는 것이다.  
 
 ## SOLID
 - Single Responsibility Principle (단일책임 원칙)  
@@ -99,7 +100,7 @@ var getData = {
   1: function() {},
   2: function() {},
   3: function() {}
-}
+};
 
 function display(type) {
   var data = getData[type]();
@@ -143,7 +144,7 @@ Woman.prototype.intro = function() {
   console.log("i'm woman");
 }
 ~~~
-이런식으로 설계를 했을 때, `Man.hello()`를 사용할 때 잉? 할수가 있다.  
+이런식으로 설계를 했을 때, `Man.hello()`를 사용할 때 일관성이 사라짐으로써 잉? 할수가 있다.  
 우리가 다형성의 개념을 구현하고자 `Overriding`을 할 수는 있을 것이지만 그 메서드의 책임이 달라서는 안된다는 것이다.
  
 ### Interface Segregation Principle (인터페이스 분리 원칙)
@@ -153,19 +154,53 @@ Woman.prototype.intro = function() {
 
 ### Dependency Inversion Principle (의존성 역전 원칙)
 상위수준 모듈은 하위수준 모듈에 의존해서는 안되며 이 둘은 추상화에 의존해야한다.  
-이것을 설명하기에 앞서서 위에서 의존을 설명했던 링크드리스트 예제를 다시 가져와보자.
+이벤트 회사의 프로그램을 만든다고 생각하자. 이벤트의 방식에 따른 결과를 보여주는 프로그램이 있다. 
 ~~~javascript
-function LinkedList(value) {
-  this.head = new Node(value);
-  this.tail = this.head;
+var app = {
+  displayEvent: function() {
+    body.innerHTML = flowerEvent.display();    
+  }
+};
+var flowerEvent = {
+  materials: [],
+  display: function() {
+    return this.materials.join(',');
+  }
+};
+~~~
+이 예제는 `displayEvent`라는 상위모듈이 `createEvent`라는 하위모듈에 의존하고 있는 것을 볼 수 있다.  
+하지만 이건 이벤트회사라고 했다. `createEvent` 함수의 수정이 잦을 것이라는 것을 충분히 예측할 수 있다.  
+그렇다면 `displayEvent` 상위모듈은 잦은 수정가능성 영향을 받게될 것이다. 이처럼 하위모듈이 상위모듈을 흔드는 것을 **의존성 역전**이라고한다.  
+
+이런 의존성 역전은 인터페이스를 활용함으로써 어느정도 방지할 수 있다.
+아래처럼 모듈 그 자체가아닌, 모듈의 추상화에 의존해서 설계함으로써 방지할 수 있다는 뜻이다.
+(자바 문법이 잘 기억이 안나서 문법자체는 부정확할수 있지만 이런 느낌이라는 것만 알아두자.)   
+~~~Java
+public Class App {
+  public void displayEvent() {
+    // Event 인터페이스의 display 메소드를 씀으로써 FlowerEvent에 대한 의존에서 벗어났다.
+    Event event = new FlowerEvent();
+    sysout(event.display());
+  }
 }
-function Node(value) {
-  this.value = value;
-  this.next = null;
+
+public Interface Event {
+  public abstract String display;
+}
+
+public Class FlowerEvent implements Event {
+  private List materials(void);
+  
+  public FlowerEvent(List materials) {
+    this.materials = materials;
+  }
+  
+  // 구현이 강제된다.
+  public String display() {
+    return materials.toString();
+  }
 }
 ~~~
-이 예제에서 LinkedList 기능을 구현하면서 Node 의 기능변경을 요구해서는 안된다는 것이다.  
-그리고 인터페이스를 활용함으로써 모듈 그 자체가아닌, 모듈의 추상화에 의존해서 설계하면 의존성 역전을 어느정도 방지할 수 있다는 것이다.    
 아쉽게도 자바스크립트에서는 인터페이스가 없기 때문에 타입스크립트를 사용할 때 고민해봐야할듯 하다.
 
 ## 생각하기
