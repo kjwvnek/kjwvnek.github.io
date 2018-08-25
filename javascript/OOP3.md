@@ -163,14 +163,14 @@ var app = {
 };
 var flowerEvent = {
   materials: [],
-  display: function() {
+  create: function() {
     return this.materials.join(',');
   }
 };
 ~~~
-이 예제는 `displayEvent`라는 상위모듈이 `createEvent`라는 하위모듈에 의존하고 있는 것을 볼 수 있다.  
-하지만 이건 이벤트회사라고 했다. `createEvent` 함수의 수정이 잦을 것이라는 것을 충분히 예측할 수 있다.  
-그렇다면 `displayEvent` 상위모듈은 잦은 수정가능성 영향을 받게될 것이다. 이처럼 하위모듈이 상위모듈을 흔드는 것을 **의존성 역전**이라고한다.  
+이 예제는 `app`라는 상위모듈이 `flowerEvent`라는 하위모듈에 의존하고 있는 것을 볼 수 있다.  
+하지만 이건 이벤트회사라고 했다. `flowerEvent` 함수의 수정이 잦을 것이라는 것을 충분히 예측할 수 있다.  
+그렇다면 `app` 상위모듈은 잦은 수정가능성 영향을 받게될 것이다. 이처럼 하위모듈이 상위모듈을 흔드는 것을 **의존성 역전**이라고한다.  
 
 이런 의존성 역전은 인터페이스를 활용함으로써 어느정도 방지할 수 있다.
 아래처럼 모듈 그 자체가아닌, 모듈의 추상화에 의존해서 설계함으로써 방지할 수 있다는 뜻이다.
@@ -185,7 +185,7 @@ public Class App {
 }
 
 public Interface Event {
-  public abstract String display;
+  public abstract String create(void);
 }
 
 public Class FlowerEvent implements Event {
@@ -196,7 +196,7 @@ public Class FlowerEvent implements Event {
   }
   
   // 구현이 강제된다.
-  public String display() {
+  public String create() {
     return materials.toString();
   }
 }
