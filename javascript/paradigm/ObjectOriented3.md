@@ -1,5 +1,5 @@
 # 객체지향 프로그래밍
-이번에는 객체지향 프로그래밍을 할 때, 조금 더 '잘' 하기위해서 로버트마틴이 세운 다섯가지 객체지향 설계원칙을 살펴볼 것이다.  
+이번에는 객체지향 프로그래밍을 할 때, 더 '잘' 하기위해서 로버트마틴이 세운 다섯가지 객체지향 설계원칙을 살펴볼 것이다.  
 마이클 페더스가 머릿글자를 따서 SOLID 라 명명했다.  
 
 ## 용어
@@ -158,7 +158,7 @@ Woman.prototype.intro = function() {
 ~~~javascript
 var app = {
   displayEvent: function() {
-    body.innerHTML = flowerEvent.display();    
+    body.innerHTML = flowerEvent.create();    
   }
 };
 var flowerEvent = {
@@ -180,7 +180,7 @@ public Class App {
   public void displayEvent() {
     // Event 인터페이스의 display 메소드를 씀으로써 FlowerEvent에 대한 의존에서 벗어났다.
     Event event = new FlowerEvent();
-    sysout(event.display());
+    sysout(event.create());
   }
 }
 
